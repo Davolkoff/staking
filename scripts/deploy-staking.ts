@@ -1,13 +1,14 @@
 import { ethers } from "hardhat";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 
 async function main() {
 
     const Staking = await ethers.getContractFactory("MyStaking");
-
-    const lpTokenAddress = "0x8327580287eEDEE60a6BBb71E2759e85691290dB";
-    const rewardsTokenAddress = "0xDBA2aC2f1C1e1909abAdb9325351235824568dEc";
     
-    const contract = await Staking.deploy(1200, 1, 600, lpTokenAddress, rewardsTokenAddress);
+    const contract = await Staking.deploy(1200, 1, 600, process.env.LP_TOKEN_ADDRESS, process.env.REWARDS_TOKEN_ADDRESS);
     await contract.deployed();
     console.log("Staking contract address: ", contract.address);
 }

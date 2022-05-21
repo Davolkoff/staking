@@ -3,6 +3,10 @@ import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers, network } from "hardhat";
 import { IUniswapV2Factory, IUniswapV2Router02 } from "../typechain";
+import * as dotenv from "dotenv";
+
+dotenv.config();
+
 
 describe("Staking Contract", function () {
     let owner: SignerWithAddress;
@@ -35,8 +39,8 @@ describe("Staking Contract", function () {
 
         it("Should mint tokens on user's account for creating pair", async function() {
             [ owner, addr1 ] = await ethers.getSigners();
-            const tacAmount = "70000000000000000000000";
-            const tbcAmount = "20000000000000000000000";
+            const tacAmount = "60000000000000000000000";
+            const tbcAmount = "10000000000000000000000";
 
             await TAC.mint(owner.address, tacAmount);
             expect(await TAC.balanceOf(owner.address)).to.equal(tacAmount);
@@ -46,24 +50,21 @@ describe("Staking Contract", function () {
         });
 
         it("Should approve router tokens for creating pair", async function() {
-            const routerAddress = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
-            
+
             const tacAmount = "60000000000000000000000";
             const tbcAmount = "10000000000000000000000";
 
-            await TAC.approve(routerAddress, tacAmount);
-            expect(await TAC.allowance(owner.address, routerAddress)).to.equal(tacAmount);
+            await TAC.approve(process.env.ROUTER_ADDRESS, tacAmount);
+            expect(await TAC.allowance(owner.address, process.env.ROUTER_ADDRESS)).to.equal(tacAmount);
             
-            await TBC.approve(routerAddress, tbcAmount);
-            expect(await TBC.allowance(owner.address, routerAddress)).to.equal(tbcAmount);
+            await TBC.approve(process.env.ROUTER_ADDRESS, tbcAmount);
+            expect(await TBC.allowance(owner.address, process.env.ROUTER_ADDRESS)).to.equal(tbcAmount);
         });
 
         it("Should create uniswap liquidity pool", async function() {
-            const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-            const routerAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
 
-            const factory = <IUniswapV2Factory>(await ethers.getContractAt("IUniswapV2Factory", factoryAddress));
-            const router = <IUniswapV2Router02>(await ethers.getContractAt("IUniswapV2Router02", routerAddress));
+            const factory = <IUniswapV2Factory>(await ethers.getContractAt("IUniswapV2Factory", process.env.FACTORY_ADDRESS as string));
+            const router = <IUniswapV2Router02>(await ethers.getContractAt("IUniswapV2Router02", process.env.ROUTER_ADDRESS as string));
 
             const tokenAAmount = "60000000000000000000000";
             const tokenBAmount = "10000000000000000000000";

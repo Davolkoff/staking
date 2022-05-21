@@ -1,5 +1,8 @@
 import { task } from "hardhat/config";
 import { IUniswapV2Factory, IUniswapV2Router02 } from "../../typechain";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 task("pool", "Creates new liquidity pool with token's addresses")
 .addParam("atoken", "Address of token A")
@@ -10,8 +13,8 @@ task("pool", "Creates new liquidity pool with token's addresses")
     const factoryAddress = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
     const routerAddress = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
 
-    const factory = <IUniswapV2Factory>(await hre.ethers.getContractAt("IUniswapV2Factory", factoryAddress));
-    const router = <IUniswapV2Router02>(await hre.ethers.getContractAt("IUniswapV2Router02", routerAddress));
+    const factory = <IUniswapV2Factory>(await hre.ethers.getContractAt("IUniswapV2Factory", process.env.FACTORY_ADDRESS as string));
+    const router = <IUniswapV2Router02>(await hre.ethers.getContractAt("IUniswapV2Router02", process.env.ROUTER_ADDRESS as string));
 
     const tokenAAmount = "60000000000000000000000";
     const tokenBAmount = "10000000000000000000000";

@@ -1,6 +1,6 @@
 import { task } from "hardhat/config";
 
-task("sinfo", "Information about staking contract")
+task("sinfo", "Information about settings of staking contract")
 .addParam("scontract", "Address of staking contract")
 .setAction(async (args, hre) => {
 
