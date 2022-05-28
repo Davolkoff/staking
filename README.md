@@ -45,6 +45,16 @@ OPTIONS:
 ```shell
 npx hardhat run scripts/deploy-staking.ts
 ```
+
+#### <a name="MintSC"></a> - Mint rewards tokens to staking contract (mints 100000 rewards tokens to your contract)
+```shell
+Usage: hardhat [GLOBAL OPTIONS] mintrewards --scontract <STRING>
+
+OPTIONS:
+
+  --scontract   Address of staking contract 
+```
+
 -------------------------
 ## 2. Tasks:
 
